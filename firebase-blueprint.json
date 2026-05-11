@@ -1,0 +1,67 @@
+{
+  "entities": {
+    "Admin": {
+      "title": "Admin",
+      "description": "System administrator with elevated privileges",
+      "type": "object",
+      "properties": {
+        "email": { "type": "string", "description": "Admin email address" }
+      },
+      "required": ["email"]
+    },
+    "User": {
+      "title": "User",
+      "description": "Platform user metadata and stats",
+      "type": "object",
+      "properties": {
+        "email": { "type": "string" },
+        "displayName": { "type": "string" },
+        "earnings": { "type": "number", "description": "Total coins generated" },
+        "status": { "type": "string", "enum": ["active", "flagged", "banned"] },
+        "role": { "type": "string", "enum": ["user", "admin", "root"], "default": "user" },
+        "preferences": {
+          "type": "object",
+          "properties": {
+            "ai": {
+              "type": "object",
+              "properties": {
+                "persona": { "type": "string" },
+                "model": { "type": "string" }
+              }
+            }
+          }
+        },
+        "lastActive": { "type": "string", "format": "date-time" }
+      },
+      "required": ["email", "earnings"]
+    },
+    "VPNNode": {
+      "title": "VPN Node",
+      "description": "VPN Server configuration",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "country": { "type": "string" },
+        "latency": { "type": "number" },
+        "status": { "type": "string", "enum": ["online", "busy", "offline"] },
+        "load": { "type": "number" },
+        "type": { "type": "string", "enum": ["free", "premium"] }
+      },
+      "required": ["name", "country", "status", "type"]
+    }
+  },
+  "firestore": {
+    "/admins/{uid}": {
+      "schema": "Admin",
+      "description": "Collection of authorized administrators"
+    },
+    "/users/{uid}": {
+      "schema": "User",
+      "description": "User profiles and aggregate stats"
+    },
+    "/vpn_nodes/{nodeId}": {
+      "schema": "VPNNode",
+      "description": "Configurable VPN infrastructure"
+    }
+  }
+}

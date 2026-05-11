@@ -1,0 +1,9 @@
+[
+  { "id": "ny-01", "name": "Nueva York", "country": "Estados Unidos", "latency": 42, "status": "online", "load": 30, "protocols": ["wireguard", "openvpn"], "type": "free" },
+  { "id": "lon-01", "name": "Londres", "country": "Reino Unido", "latency": 120, "status": "online", "load": 85, "protocols": ["wireguard", "openvpn", "v2ray"], "type": "premium" },
+  { "id": "tyo-01", "name": "Tokio", "country": "Japón", "latency": 210, "status": "busy", "load": 92, "protocols": ["wireguard", "ikev2"], "type": "premium" },
+  { "id": "ams-01", "name": "Amsterdam", "country": "Países Bajos", "latency": 35, "status": "online", "load": 40, "protocols": ["wireguard", "openvpn"], "type": "free" },
+  { "id": "sp-01", "name": "São Paulo", "country": "Brasil", "latency": 68, "status": "online", "load": 45, "protocols": ["wireguard", "openvpn"], "type": "premium" },
+  { "id": "fra-01", "name": "Frankfurt", "country": "Alemania", "latency": 135, "status": "online", "load": 55, "protocols": ["wireguard"], "type": "free" },
+  { "id": "zh-01", "name": "Zúrich", "country": "Suiza", "latency": 12, "status": "online", "load": 15, "protocols": ["wireguard", "openvpn", "shadowsocks"], "type": "premium" }
+]

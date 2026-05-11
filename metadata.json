@@ -1,0 +1,10 @@
+{
+  "name": "Navegador X",
+  "description": "Un navegador desktop futurista con minería integrada, VPN nativo e IA contextual.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone",
+    "geolocation"
+  ],
+  "majorCapabilities": []
+}

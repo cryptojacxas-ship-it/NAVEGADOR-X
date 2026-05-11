@@ -1,0 +1,4 @@
+[
+  { "id": "s-01", "url": "https://google.com", "timestamp": "2026-05-10T10:00:00Z", "duration": 300 },
+  { "id": "s-02", "url": "navegador://mineria", "timestamp": "2026-05-10T11:30:00Z", "duration": 1500 }
+]
