@@ -75,11 +75,56 @@ export function handleFirestoreError(error: unknown, operationType: OperationTyp
   throw new Error(JSON.stringify(errInfo));
 }
 
+import { 
+  saveProfileSnapshotIDB, 
+  clearProfileSnapshotIDB, 
+  getProfileSnapshotIDB 
+} from './idbSession';
+
+// Session Cache Helpers for 0ms ultra-fast login restoration
+const USER_CACHE_KEY = 'navegadorx_cached_user_session';
+
+export function getCachedUserSession() {
+  try {
+    const raw = localStorage.getItem(USER_CACHE_KEY);
+    if (!raw) return null;
+    return JSON.parse(raw);
+  } catch {
+    return null;
+  }
+}
+
+export function cacheUserSession(user: FirebaseUser | null) {
+  try {
+    if (!user) {
+      localStorage.removeItem(USER_CACHE_KEY);
+      clearProfileSnapshotIDB().catch(() => {});
+    } else {
+      const payload = {
+        uid: user.uid,
+        email: user.email,
+        displayName: user.displayName,
+        photoURL: user.photoURL,
+        cachedAt: Date.now()
+      };
+      localStorage.setItem(USER_CACHE_KEY, JSON.stringify(payload));
+      saveProfileSnapshotIDB(payload).catch(() => {});
+    }
+  } catch (e) {
+    console.warn('Unable to cache user session locally:', e);
+  }
+}
+
 // Auth Helpers
 export const signInWithGoogle = async () => {
   const provider = new GoogleAuthProvider();
+  // Enable fast account selection
+  provider.setCustomParameters({ prompt: 'select_account' });
   try {
     const result = await signInWithPopup(auth, provider);
+    cacheUserSession(result.user);
+    // Non-blocking profile synchronization
+    ensureUserProfile(result.user).catch(err => console.warn('Non-blocking user profile sync error:', err));
     return result.user;
   } catch (error) {
     console.error("Error signing in with Google", error);
@@ -87,13 +132,19 @@ export const signInWithGoogle = async () => {
   }
 };
 
-export const logout = () => signOut(auth);
+export const logout = () => {
+  cacheUserSession(null);
+  return signOut(auth);
+};
 
 // Profile Helper
 export async function ensureUserProfile(user: FirebaseUser) {
   const userRef = doc(db, 'users', user.uid);
   try {
     const userDoc = await getDoc(userRef);
+    let role = 'user';
+    let earnings = 0;
+
     if (!userDoc.exists()) {
       await setDoc(userRef, {
         email: user.email,
@@ -110,10 +161,24 @@ export async function ensureUserProfile(user: FirebaseUser) {
         lastActive: new Date().toISOString()
       });
     } else {
+      const data = userDoc.data();
+      role = data?.role || 'user';
+      earnings = data?.earnings || 0;
       await updateDoc(userRef, {
         lastActive: new Date().toISOString()
       });
     }
+
+    // Persist full profile snapshot to IndexedDB for <10ms state reconciliation
+    saveProfileSnapshotIDB({
+      uid: user.uid,
+      email: user.email,
+      displayName: user.displayName,
+      photoURL: user.photoURL,
+      role,
+      earnings,
+      cachedAt: Date.now()
+    }).catch(() => {});
   } catch (error) {
     handleFirestoreError(error, OperationType.WRITE, `users/${user.uid}`);
   }

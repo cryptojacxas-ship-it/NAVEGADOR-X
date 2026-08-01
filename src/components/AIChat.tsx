@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import { Send, Sparkles, X, User, Bot, Loader2, RefreshCcw, Maximize2, Settings, ChevronLeft, Check, Shield } from 'lucide-react';
+import { Send, Sparkles, X, User, Bot, Loader2, RefreshCcw, Maximize2, Settings, ChevronLeft, Check, Shield, Scan } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { GoogleGenAI } from "@google/genai";
 import { cn } from '@/src/lib/utils';
@@ -49,9 +49,10 @@ interface AIChatProps {
   isFloating?: boolean;
   onClose?: () => void;
   currentUrl?: string;
+  onOpenXRay?: () => void;
 }
 
-export function AIChat({ isFloating, onClose, currentUrl }: AIChatProps) {
+export function AIChat({ isFloating, onClose, currentUrl, onOpenXRay }: AIChatProps) {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -474,20 +475,31 @@ export function AIChat({ isFloating, onClose, currentUrl }: AIChatProps) {
               <div className="mt-auto">
                 <div className="flex gap-2 mb-3">
                   <button 
-                    onClick={handleSummarize}
+                    type="button"
+                    onClick={onOpenXRay}
                     disabled={isLoading}
-                    className="flex-1 flex items-center justify-center gap-2 py-2 rounded-lg bg-brand-cyan/5 border border-brand-cyan/20 text-[9px] font-bold uppercase tracking-widest text-brand-cyan hover:bg-brand-cyan/10 transition-colors"
+                    className="flex-1 flex items-center justify-center gap-1.5 py-2 rounded-lg bg-brand-magenta/10 border border-brand-magenta/30 text-[9px] font-bold uppercase tracking-widest text-brand-magenta hover:bg-brand-magenta/20 transition-all cursor-pointer shadow-[0_0_12px_rgba(255,60,172,0.15)]"
                   >
-                    <Sparkles size={12} />
-                    {currentUrl ? "Resumir Pestaña" : "Resumir Todo"}
+                    <Scan size={12} className="animate-pulse" />
+                    Modo X-Ray
                   </button>
                   <button 
+                    type="button"
+                    onClick={handleSummarize}
+                    disabled={isLoading}
+                    className="flex-1 flex items-center justify-center gap-1.5 py-2 rounded-lg bg-brand-cyan/5 border border-brand-cyan/20 text-[9px] font-bold uppercase tracking-widest text-brand-cyan hover:bg-brand-cyan/10 transition-colors cursor-pointer"
+                  >
+                    <Sparkles size={12} />
+                    Resumir
+                  </button>
+                  <button 
+                    type="button"
                     onClick={handleSecurityAudit}
                     disabled={isLoading}
-                    className="flex-1 flex items-center justify-center gap-2 py-2 rounded-lg bg-white/5 border border-white/10 text-[9px] font-bold uppercase tracking-widest text-gray-500 hover:text-white transition-colors"
+                    className="flex-1 flex items-center justify-center gap-1.5 py-2 rounded-lg bg-white/5 border border-white/10 text-[9px] font-bold uppercase tracking-widest text-gray-400 hover:text-white transition-colors cursor-pointer"
                   >
                     <Shield size={12} />
-                    Audit Seguridad
+                    Audit
                   </button>
                 </div>
                 <form 

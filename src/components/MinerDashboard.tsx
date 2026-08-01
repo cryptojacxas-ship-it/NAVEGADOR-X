@@ -56,6 +56,9 @@ export function MinerDashboard() {
         setEarnings(data.earnings || 0);
         earningsRef.current = data.earnings || 0;
       }
+    }, (error) => {
+      console.warn('[MinerDashboard] User doc snapshot error:', error);
+      handleFirestoreError(error, OperationType.GET, `users/${user.uid}`);
     });
 
     return () => unsub();

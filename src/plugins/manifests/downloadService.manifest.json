@@ -1,0 +1,59 @@
+{
+  "id": "plugin-download-service",
+  "name": "Download Manager Service Plugin",
+  "version": "1.0.0",
+  "description": "Gestor de descargas multihilo emulado con Turbo Mode y pause/resume en segundo plano",
+  "author": "Navegador X Core Team",
+  "permissions": [
+    "storage.write",
+    "network.download",
+    "notification.show"
+  ],
+  "capabilities": [
+    {
+      "name": "download.start",
+      "description": "Inicia una nueva descarga acelerada con control de ancho de banda",
+      "version": "1.0.0",
+      "category": "storage",
+      "permissions": ["storage.write", "network.download"],
+      "supportedTransports": ["Direct", "VPN", "Tor"],
+      "timeoutMs": 60000,
+      "auditRequired": true
+    },
+    {
+      "name": "download.pause",
+      "description": "Pausa una descarga activa en progreso",
+      "version": "1.0.0",
+      "category": "storage",
+      "permissions": ["storage.write"],
+      "supportedTransports": ["Direct", "VPN", "Tor"],
+      "timeoutMs": 5000,
+      "auditRequired": false
+    },
+    {
+      "name": "download.resume",
+      "description": "Reanuda una descarga pausada",
+      "version": "1.0.0",
+      "category": "storage",
+      "permissions": ["storage.write", "network.download"],
+      "supportedTransports": ["Direct", "VPN", "Tor"],
+      "timeoutMs": 15000,
+      "auditRequired": false
+    },
+    {
+      "name": "download.cancel",
+      "description": "Cancela y remueve un archivo en descarga",
+      "version": "1.0.0",
+      "category": "storage",
+      "permissions": ["storage.write"],
+      "supportedTransports": ["Direct", "VPN", "Tor"],
+      "timeoutMs": 5000,
+      "auditRequired": true
+    }
+  ],
+  "config": {
+    "turboMode": true,
+    "maxConcurrentDownloads": 4,
+    "downloadDirectory": "/downloads"
+  }
+}

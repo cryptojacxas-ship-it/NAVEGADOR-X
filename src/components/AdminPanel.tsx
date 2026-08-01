@@ -120,10 +120,16 @@ export function AdminPanel() {
         ...prev,
         activeNodes: nodeData.filter(n => n.status === 'online').length
       }));
+    }, (error) => {
+      console.warn('[AdminPanel] vpn_nodes snapshot error:', error);
+      handleFirestoreError(error, OperationType.LIST, 'vpn_nodes');
     });
 
     const unsubLogs = onSnapshot(query(collection(db, 'logs'), orderBy('timestamp', 'desc'), limit(15)), (snapshot) => {
       setLogs(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as LogEntry)));
+    }, (error) => {
+      console.warn('[AdminPanel] logs snapshot error:', error);
+      handleFirestoreError(error, OperationType.LIST, 'logs');
     });
 
     return () => {

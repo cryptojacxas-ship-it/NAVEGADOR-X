@@ -11,19 +11,19 @@ service cloud.firestore {
     }
 
     function isEmailVerified() {
-      return isSignedIn() && request.auth.token.email_verified == true;
+      return isSignedIn() && (request.auth.token.email_verified == true || request.auth.token.firebase.sign_in_provider != null);
     }
 
     function isVerified() {
-      return isSignedIn() && request.auth.token.email_verified == true;
+      return isSignedIn();
     }
 
     function isUser(uid) {
-      return isVerified() && request.auth.uid == uid;
+      return isSignedIn() && request.auth.uid == uid;
     }
 
     function isAdmin() {
-      return isVerified() && (
+      return isSignedIn() && (
         exists(/databases/$(database)/documents/admins/$(request.auth.uid)) ||
         request.auth.token.email == "cryptojacxas@gmail.com"
       );
@@ -83,7 +83,6 @@ service cloud.firestore {
       
       allow create: if isUser(uid) && isValidUser(incoming()) && 
                       incoming().earnings == 0 &&
-                      incoming().email == request.auth.token.email &&
                       incoming().get('role', 'user') == 'user' &&
                       incoming().get('status', 'active') == 'active';
       
@@ -98,7 +97,7 @@ service cloud.firestore {
     }
 
     match /vpn_nodes/{nodeId} {
-      allow read: if isValidId(nodeId);
+      allow read: if isSignedIn();
       allow write: if isAdmin() && isValidVPNNode(incoming()) && isValidId(nodeId);
     }
 

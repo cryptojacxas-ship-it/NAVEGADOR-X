@@ -24,8 +24,66 @@
 
 @layer base {
   body {
-    @apply bg-space-black text-text-main font-sans selection:bg-brand-magenta/30 selection:text-brand-cyan antialiased;
+    @apply bg-space-black text-text-main font-sans selection:bg-brand-magenta/30 selection:text-brand-cyan antialiased transition-colors duration-300;
   }
+
+  html.theme-light-aura, body.theme-light-aura {
+    --color-space-black: #f0f4f9;
+    --color-card-bg: #ffffff;
+    --color-sidebar-bg: #f8fafc;
+    --color-border-subtle: #e2e8f0;
+    --color-border-panel: #cbd5e1;
+    --color-text-main: #0f172a;
+    --color-text-muted: #475569;
+    background-color: #f0f4f9;
+    color: #0f172a;
+  }
+
+  html.theme-light-aura .bg-\[\#121214\],
+  html.theme-light-aura .bg-\[\#0b0f14\] {
+    background-color: #f8fafc !important;
+  }
+
+  html.theme-light-aura .bg-\[\#1e1e20\] {
+    background-color: #ffffff !important;
+    border-color: #cbd5e1 !important;
+  }
+
+  html.theme-light-aura .bg-[#16171b] {
+    background-color: #ffffff !important;
+    border-color: #cbd5e1 !important;
+  }
+
+  html.theme-light-aura .text-white {
+    color: #0f172a !important;
+  }
+
+  html.theme-light-aura .text-gray-400,
+  html.theme-light-aura .text-gray-500 {
+    color: #475569 !important;
+  }
+
+  html.theme-light-aura .border-white\/10,
+  html.theme-light-aura .border-white\/5 {
+    border-color: rgba(15, 23, 42, 0.1) !important;
+  }
+
+  html.theme-light-aura .bg-white\/5 {
+    background-color: rgba(15, 23, 42, 0.05) !important;
+  }
+
+  html.theme-light-aura .bg-white\/10 {
+    background-color: rgba(15, 23, 42, 0.08) !important;
+  }
+}
+
+@keyframes spinSlow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.animate-spin-slow {
+  animation: spinSlow 12s linear infinite;
 }
 
 @layer components {
