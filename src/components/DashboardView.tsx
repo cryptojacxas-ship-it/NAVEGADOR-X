@@ -59,7 +59,7 @@ export function DashboardView({ onNavigate, onOpenDownloads }: DashboardViewProp
     setShowDesktopInfoModal(true);
 
     // 2. Redirigir al repositorio oficial en GitHub en una nueva pestaña
-    window.open('https://github.com/navegadorx/navegador-x', '_blank', 'noopener,noreferrer');
+    window.open('https://github.com/cryptojacxas-ship-it/NAVEGADOR-X', '_blank', 'noopener,noreferrer');
   };
 
   const handleExportSourceBundle = async () => {
@@ -160,7 +160,7 @@ Para la versión de Escritorio nativa (.exe / Electron / Tauri), consulta las no
 
             <div className="flex items-center gap-2 w-full sm:w-auto">
               <a
-                href="https://github.com/navegadorx/navegador-x"
+                href="https://github.com/cryptojacxas-ship-it/NAVEGADOR-X"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex-1 sm:flex-initial px-3.5 py-2 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 text-gray-300 text-[10px] font-mono font-bold uppercase tracking-wider flex items-center justify-center gap-1.5 transition-all cursor-pointer"
@@ -230,7 +230,7 @@ Para la versión de Escritorio nativa (.exe / Electron / Tauri), consulta las no
                 El instalador ejecutable de escritorio (.exe) está en desarrollo activo. Te hemos redirigido al repositorio oficial de GitHub para explorar el código fuente.
               </p>
               <a
-                href="https://github.com/navegadorx/navegador-x"
+                href="https://github.com/cryptojacxas-ship-it/NAVEGADOR-X"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-1 text-brand-cyan hover:underline font-mono text-[11px] pt-1 font-bold"
@@ -373,7 +373,7 @@ Para la versión de Escritorio nativa (.exe / Electron / Tauri), consulta las no
 
               <div className="flex items-center justify-end gap-3 pt-2 border-t border-white/10">
                 <a
-                  href="https://github.com/navegadorx/navegador-x"
+                  href="https://github.com/cryptojacxas-ship-it/NAVEGADOR-X"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="px-4 py-2 rounded-lg bg-brand-cyan/20 border border-brand-cyan/40 text-brand-cyan hover:bg-brand-cyan/30 text-xs font-mono font-bold transition-all cursor-pointer flex items-center gap-1.5"

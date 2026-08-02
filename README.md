@@ -1,13 +1,32 @@
 # Navegador X — Browser Runtime OS (v0.1.0-alpha)
 
-[![Runtime OS](https://img.shields.io/badge/Runtime%20OS-v1.0-00d2ff?style=flat-square)](https://github.com/navegadorx)
-[![Browser Kernel](https://img.shields.io/badge/Kernel-Operational-27c93f?style=flat-square)](https://github.com/navegadorx)
-[![Version](https://img.shields.io/badge/Release-v0.1.0--alpha%20(Web%20Edition)-ff3cac?style=flat-square)](https://github.com/navegadorx)
+[![Runtime OS](https://img.shields.io/badge/Runtime%20OS-v1.0-00d2ff?style=flat-square)](https://github.com/cryptojacxas-ship-it/NAVEGADOR-X)
+[![Browser Kernel](https://img.shields.io/badge/Kernel-Operational-27c93f?style=flat-square)](https://github.com/cryptojacxas-ship-it/NAVEGADOR-X)
+[![Version](https://img.shields.io/badge/Release-v0.1.0--alpha%20(Web%20Edition)-ff3cac?style=flat-square)](https://github.com/cryptojacxas-ship-it/NAVEGADOR-X)
 [![License](https://img.shields.io/badge/License-MIT-blue?style=flat-square)](LICENSE)
 
-Navegador X es un navegador web de nueva generación construido sobre un **Runtime OS v1.0** y un **Browser Kernel** totalmente modular en TypeScript. Combina navegación fluida, aceleración de descargas, protección anti-fingerprinting activa y capacidades de Inteligencia Artificial nativas.
+Navegador X es un prototipo de navegador web de nueva generación construido como una aplicación SPA (React + TypeScript) para validar la arquitectura de su **Runtime OS v1.0** y **Browser Kernel** totalmente modular.
 
-> ℹ️ **Nota de Edición**: La versión **v0.1.0-alpha** es la **Web Runtime Edition** (React + TypeScript). La versión de escritorio nativa (`.exe` ejecutable para Windows basada en Electron / Tauri) se encuentra actualmente en desarrollo activo para las siguientes entregas.
+> ℹ️ **Nota Importante de Estado (v0.1.0-alpha)**:
+> Esta versión es una **demostración web / validación de arquitectura** (SPA sobre React + Vite + TypeScript) que se ejecuta dentro del navegador. No es aún un ejecutable nativo ni instala un navegador a nivel de sistema operativo. Las capacidades de red profunda (VPN, Tor, descargas por chunks a disco) y la versión de escritorio ejecutable (`.exe` basada en Electron / Tauri) se encuentran en desarrollo activo.
+
+---
+
+## 📊 Estado Actual de Implementación (Current Implementation Status)
+
+| Componente / Módulo | Estado de Desarrollo | Descripción |
+| :--- | :--- | :--- |
+| **Web Runtime Client (SPA)** | ✅ Implementado | Cliente de referencia React + Vite + TypeScript. |
+| **BrowserKernel & EventBus** | ✅ Implementado | Núcleo de orquestación, eventos y desacoplamiento. |
+| **Capability Engine & Contracts** | ✅ Implementado | Sistema de permisos, capacidades y políticas congeladas. |
+| **Plugin Host & Worker Queue** | ✅ Implementado | Planificador no bloqueante cooperativo. |
+| **Runtime Inspector OS** | ✅ Implementado | Telemetría, métricas y monitoreo de procesos. |
+| **Cortex AI Layer** | ✅ Implementado | Integración server-side con Gemini API. |
+| **Turbo Download Manager** | 🧪 Prototipo / Mock UI | Interfaz y simulación de tasa de transferencia. |
+| **Privacy Shield & Anti-Fingerprinting** | 🧪 Prototipo / Mock UI | Simulación de intercepción de Canvas, WebGL y WebRTC. |
+| **Desktop Edition (Electron / Tauri)** | 🚧 Planeado (Fase 2) | Contenedor nativo para verificación de portabilidad. |
+| **Native SOCKS5 & Tor Tunneling** | 🚧 Planeado (Fase 3/4) | Pila de red nativa a nivel de sistema operativo. |
+| **Cross-Browser Connectors** | 🚧 Planeado (Fase 5) | Extensión/Conector para navegadores existentes. |
 
 ---
 
@@ -15,11 +34,12 @@ Navegador X es un navegador web de nueva generación construido sobre un **Runti
 
 - **Navegación Fluida e Historial Real**: Control total de pila de navegación (Atrás, Adelante, Recargar), barra de direcciones unificada para URLs web (`https://...`) y esquemas internos (`navegador://...`, `runtime://...`), y medidor de latencia de carga en milisegundos.
 - **Dashboard Operativo & Hoja de Ruta**: Panel de mando interactivo con resumen de estado, exportador de manifiesto de versión e información sobre la futura versión nativa de escritorio.
-- **Gestor de Descargas Acelerado (Turbo Mode)**: Descarga paralela de archivos por micro-chunks, soporte para pausar, reanudar y cancelar tareas, y cálculo dinámico de tasa de transferencia.
+- **Gestor de Descargas (Simulación de UI / Mock Turbo)**: Interfaz de gestión de descargas con cálculo dinámico de tasa de transferencia, pausa, reanudación y modo Turbo simulado.
 - **Runtime Inspector OS**: Visualizador de rendimiento del Scheduler, aislamiento de tareas, monitoreo de memoria IDB y registro de eventos del sistema.
-- **Anti-Fingerprinting Privacy Shield**: Intercepción y neutralización de fingerprinting en Canvas, WebGL, AudioContext y mitigación de fugas IP en WebRTC.
-- **X-Ray DOM Inspector**: Herramienta de radiografía estructural para inspeccionar y depurar el árbol DOM.
+- **Anti-Fingerprinting Privacy Shield (Módulo interactivo)**: Intercepción y simulación de mitigación de fingerprinting en Canvas, WebGL, AudioContext y WebRTC.
+- **X-Ray DOM Inspector**: Herramienta de radiografía estructural para inspeccionar y depurar el árbol DOM de las páginas.
 - **Cortex AI Layer & Traducción Instantánea**: Integración con Gemini AI para asistencia contextual y traducción instantánea multilingüe de páginas web.
+- **Servicios de Red & Minería (Simulados)**: Paneles de configuración de VPN, Tor y Rig de minería en modo simulación para validación de interfaz y arquitectura.
 
 ---
 

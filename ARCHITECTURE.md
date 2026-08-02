@@ -40,6 +40,41 @@ The **BrowserKernel** and its core interfaces are **FROZEN**. The core OS code e
 
 ---
 
+## Platform Identity
+
+- **Platform:** `X Runtime OS` — Microkernel execution engine for browser capabilities.
+- **Reference Client:** `X Browser` — Web SPA & workspace client validating the runtime.
+- **Target Shells (Roadmap):** Electron, Tauri, WebView2, Multi-Browser Connectors.
+
+---
+
+## Mission Statement
+
+> *X Runtime OS is an evidence-driven execution platform designed to provide a stable, provider-independent runtime for browser capabilities. Every architectural evolution must preserve public contracts, maintain backward compatibility, and be supported by reproducible experimental evidence before becoming part of the Baseline.*
+
+---
+
+## Baseline Scope (v1.0)
+
+### Included in Baseline
+- ✅ `BrowserKernel` lifecycle & event delegation
+- ✅ `Capability Engine` & access control contracts
+- ✅ `Provider Engine` (Network, AI, Mining, Storage interfaces)
+- ✅ `RuntimeScheduler` non-blocking worker queue
+- ✅ `EventBus` reactive pub/sub bus
+- ✅ `PluginHost` sandbox extension runner
+- ✅ `RuntimeInspector` metrics & process monitor
+- ✅ `X Browser` Web SPA reference client
+
+### Non-Goals (Explicitly Excluded from Baseline v1.0)
+- ❌ Native Desktop Runtime shell (Planned F2)
+- ❌ Native OS Network Stack & SOCKS5 proxy driver (Planned F3)
+- ❌ Embedded Tor daemon & circuit isolation (Planned F4)
+- ❌ Chrome / Firefox cross-browser connectors (Planned F5)
+- ❌ Autonomous AI Knowledge research engine (Planned F6)
+
+---
+
 ## Architectural Invariants (Baseline v1.0)
 
 - **I-001 — Runtime First:** X Runtime OS is the primary platform. X Browser is the reference client.
