@@ -5,7 +5,6 @@ import {
   Terminal, Check, Copy, ExternalLink, RefreshCw, X, Search,
   Radio, Fingerprint, Layers, AlertCircle, HelpCircle, Code, Send, Zap
 } from 'lucide-react';
-import { GoogleGenAI } from "@google/genai";
 import { cn } from '@/src/lib/utils';
 
 export interface DOMElementMetadata {
@@ -146,10 +145,7 @@ export function XRayDOMInspector({
     setAiAnalysis(null);
 
     try {
-      const apiKey = process.env.GEMINI_API_KEY;
-      if (apiKey && apiKey !== "MY_GEMINI_API_KEY") {
-        const ai = new GoogleGenAI({ apiKey });
-        const prompt = `Analiza detalladamente este elemento del DOM capturado en X-Ray Mode:
+      const prompt = `Analiza detalladamente este elemento del DOM capturado en X-Ray Mode:
 Etiqueta: ${element.tag}
 Selector: ${element.selector}
 Tipo: ${element.type}
@@ -164,44 +160,42 @@ Genera un diagnóstico directo en español respondiendo:
 3. Si es un script/formulario: ¿Representa algún riesgo de privacidad, fingerprinting o exfiltración de datos?
 4. Recomendación de seguridad para el usuario.`;
 
-        const response = await ai.models.generateContent({
-          model: "gemini-3-flash-preview",
-          contents: prompt,
-          config: {
-            systemInstruction: "Eres 'X-Ray Cortex AI', el motor de auditoría profunda de DOM y metadatos de Navegador X. Proporcionas análisis técnicos precisos, claros y directamente accionables.",
-          }
-        });
+      const res = await fetch('/api/v1/ai/query', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          prompt,
+          systemInstruction: "Eres 'X-Ray Cortex AI', el motor de auditoría profunda de DOM y metadatos de Navegador X. Proporcionas análisis técnicos precisos, claros y directamente accionables."
+        })
+      });
 
-        setAiAnalysis(response.text || "Análisis completado sin observaciones adicionales.");
+      if (res.ok) {
+        const data = await res.json();
+        setAiAnalysis(data.response || "Análisis completado sin observaciones adicionales.");
       } else {
-        // Fallback local simulated analysis
-        setTimeout(() => {
-          let simulatedResult = "";
-          if (element.type === 'image') {
-            simulatedResult = `🔍 Detección de Metadatos X-Ray [${element.selector}]:
+        throw new Error("Servidor no disponible");
+      }
+    } catch (err: any) {
+      let simulatedResult = "";
+      if (element.type === 'image') {
+        simulatedResult = `🔍 Detección de Metadatos X-Ray [${element.selector}]:
 - Licencia: ${element.copyrightStatus}
 - Propietario de Derechos: ${element.copyrightOwner}
 - Análisis de Copyright: Se detectó un marcador EXIF con firma IPTC de uso comercial restringido. No se recomienda la copia sin atribución explícita.
 - Dimensiones Reales: ${element.dimensions}
 - Evaluación de Riesgo: ${element.riskLevel}`;
-          } else if (element.type === 'script') {
-            simulatedResult = `⚠️ Diagnóstico de Script Oculto [${element.selector}]:
+      } else if (element.type === 'script') {
+        simulatedResult = `⚠️ Diagnóstico de Script Oculto [${element.selector}]:
 - Tipo de Amenaza: ${element.hiddenTrackerType || 'Script de Rastreo'}
 - Comportamiento: Intenta leer el canvas HTML5 y parámetros de AudioContext para construir un hash fingerprint único de tu máquina.
 - Recomendación: Privacy Shield de Navegador X está neutralizando esta ejecución mediante inyección de ruido sintético.`;
-          } else {
-            simulatedResult = `🛡️ Auditoría de Formulario/Elemento [${element.selector}]:
+      } else {
+        simulatedResult = `🛡️ Auditoría de Formulario/Elemento [${element.selector}]:
 - Destino POST: ${element.sourceUrl}
 - Estado de CSRF: Token presente pero con expiración corta.
 - Evaluación de Riesgo: ${element.riskLevel}`;
-          }
-          setAiAnalysis(simulatedResult);
-          setIsAnalyzing(false);
-        }, 1200);
-        return;
       }
-    } catch (err: any) {
-      setAiAnalysis(`Error durante el escaneo X-Ray: ${err.message}`);
+      setAiAnalysis(simulatedResult);
     } finally {
       setIsAnalyzing(false);
     }

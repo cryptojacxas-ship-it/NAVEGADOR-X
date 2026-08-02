@@ -104,11 +104,39 @@ async function startServer() {
     }
   });
 
-  // AI Query
+  // AI Query via Gemini Server Proxy
   app.post("/api/v1/ai/query", async (req, res) => {
-    const { prompt, contextTabs, options } = req.body;
-    // Stub → reemplazar con llamada a OpenAI/local LLM
-    res.json({ response: `Resumen de "${prompt}" con ${contextTabs?.length ?? 0} pestañas.` });
+    try {
+      const { prompt, model, systemInstruction } = req.body;
+      const ai = getGeminiClient();
+
+      if (!ai) {
+        return res.json({
+          response: `[Modo Offline/Sin API Key] Respuesta simulada a: "${prompt}". Para habilitar Gemini real en el servidor, configure GEMINI_API_KEY en las variables de entorno.`,
+          provider: "Local Offline Engine"
+        });
+      }
+
+      const response = await ai.models.generateContent({
+        model: "gemini-3.6-flash",
+        contents: prompt,
+        config: {
+          systemInstruction: systemInstruction || "Eres la IA contextual e integrada del microkernel 'X Runtime OS' / 'Navegador X'. Responde de forma concisa y profesional.",
+          temperature: 0.7,
+        }
+      });
+
+      res.json({
+        response: response.text || "No se obtuvo respuesta del motor IA.",
+        provider: "Gemini 3.6 Flash"
+      });
+    } catch (error: any) {
+      console.error("Error en /api/v1/ai/query:", error);
+      res.status(500).json({
+        error: "Error en el servidor de IA",
+        details: error.message || String(error)
+      });
+    }
   });
 
   // AI Instant Translate via Gemini

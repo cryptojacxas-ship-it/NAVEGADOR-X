@@ -1,7 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import { Send, Sparkles, X, User, Bot, Loader2, RefreshCcw, Maximize2, Settings, ChevronLeft, Check, Shield, Scan } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
-import { GoogleGenAI } from "@google/genai";
 import { cn } from '@/src/lib/utils';
 import { auth, db, handleFirestoreError, OperationType } from '@/src/lib/firebase';
 import { onAuthStateChanged } from 'firebase/auth';
@@ -132,23 +131,24 @@ export function AIChat({ isFloating, onClose, currentUrl, onOpenXRay }: AIChatPr
     setIsLoading(true);
 
     try {
-      const apiKey = process.env.GEMINI_API_KEY;
-      if (!apiKey || apiKey === "MY_GEMINI_API_KEY") {
-        throw new Error("API Key no configurada.");
-      }
-
-      const ai = new GoogleGenAI({ apiKey });
-      const response = await ai.models.generateContent({
-        model: preferences?.model || "gemini-3-flash-preview",
-        contents: textToSend,
-        config: {
-          systemInstruction: preferences?.systemPrompt || "Eres la IA contextual integrada en 'Navegador X'.",
-        }
+      const res = await fetch('/api/v1/ai/query', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          prompt: textToSend,
+          model: preferences?.model,
+          systemInstruction: preferences?.systemPrompt || "Eres la IA contextual integrada en 'Navegador X'."
+        })
       });
 
+      if (!res.ok) {
+        throw new Error(`Error en servidor IA (${res.status})`);
+      }
+
+      const data = await res.json();
       const assistantMessage: Message = { 
         role: 'assistant', 
-        content: response.text || "No se ha podido generar una respuesta." 
+        content: data.response || "No se ha podido generar una respuesta." 
       };
       setMessages(prev => [...prev, assistantMessage]);
     } catch (error: any) {
