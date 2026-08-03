@@ -141,14 +141,19 @@ export function AIChat({ isFloating, onClose, currentUrl, onOpenXRay }: AIChatPr
         })
       });
 
-      if (!res.ok) {
-        throw new Error(`Error en servidor IA (${res.status})`);
+      const contentType = res.headers.get('content-type');
+      let responseText = "No se ha podido generar una respuesta.";
+
+      if (res.ok && contentType && contentType.includes('application/json')) {
+        const data = await res.json();
+        responseText = data.response || responseText;
+      } else {
+        responseText = `[Modo Offline/Sin Servidor] Respuesta a: "${textToSend}"`;
       }
 
-      const data = await res.json();
       const assistantMessage: Message = { 
         role: 'assistant', 
-        content: data.response || "No se ha podido generar una respuesta." 
+        content: responseText 
       };
       setMessages(prev => [...prev, assistantMessage]);
     } catch (error: any) {
