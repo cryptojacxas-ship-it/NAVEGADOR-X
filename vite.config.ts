@@ -5,6 +5,7 @@ import {defineConfig, loadEnv} from 'vite';
 
 export default defineConfig(({mode}) => {
   return {
+    base: '/NAVEGADOR-X/',
     plugins: [react(), tailwindcss()],
     resolve: {
       alias: {
