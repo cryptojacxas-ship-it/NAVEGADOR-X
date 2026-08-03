@@ -1,8 +1,9 @@
 // BrowserMaskedPage.tsx
 import React, { useState, useEffect } from 'react';
-import { Shield, Zap, Cpu, Globe, Download, Lock, Activity, ArrowLeft, Terminal, ShieldAlert } from 'lucide-react';
+import { Shield, Zap, Cpu, Globe, Download, Lock, Activity, ArrowLeft, Terminal, ShieldAlert, Star } from 'lucide-react';
 import { motion } from 'motion/react';
 import { cn } from './../lib/utils';
+import { BookmarkButton } from './BookmarkButton';
 
 interface BrowserMaskedPageProps {
   url?: string;
@@ -84,6 +85,14 @@ export function BrowserMaskedPage({ url = "https://www.google.com/search?q=crypt
                  <span className="text-[8px] font-bold text-brand-cyan uppercase tracking-widest">VPN: ON</span>
                </div>
             </div>
+            
+            <BookmarkButton 
+              url={currentUrl}
+              title={`Marcador - ${currentUrl}`}
+              category="Navegación"
+              size="sm"
+              variant="icon"
+            />
             
             <button
               onClick={() => window.open('https://navegadorx.app/download', '_blank')}

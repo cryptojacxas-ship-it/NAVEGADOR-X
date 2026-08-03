@@ -26,7 +26,8 @@ import {
   Download,
   Scan,
   Terminal,
-  User as UserIcon
+  User as UserIcon,
+  Star
 } from 'lucide-react';
 import { cn } from '@/src/lib/utils';
 import { HomeView } from './components/HomeView';
@@ -45,6 +46,7 @@ import { PrivacyShield } from './components/PrivacyShield';
 import { PrivacyToast } from './components/PrivacyToast';
 import { XRayDOMInspector } from './components/XRayDOMInspector';
 import { RuntimeInspector } from './components/RuntimeInspector';
+import { BookmarksView } from './components/BookmarksView';
 import { kernel } from './kernel/BrowserKernel';
 import { downloadServicePlugin } from './plugins/DownloadServicePlugin';
 import { privacyServicePlugin } from './plugins/PrivacyServicePlugin';
@@ -56,7 +58,7 @@ import { TabResourceMonitor } from './components/TabResourceMonitor';
 import { onAuthStateChanged, User } from 'firebase/auth';
 import { doc, onSnapshot } from 'firebase/firestore';
 
-type Tab = 'dashboard' | 'home' | 'vpn' | 'miner' | 'ai' | 'marketplace' | 'admin' | 'runtime';
+type Tab = 'dashboard' | 'home' | 'vpn' | 'miner' | 'ai' | 'marketplace' | 'admin' | 'runtime' | 'favorites';
 
 const INITIAL_HISTORY: HistoryItem[] = [
   { id: '1', url: 'navegador://dashboard', title: 'Dashboard Navegador X', isInternal: true, visitCount: 15, category: 'Interno' },
@@ -160,6 +162,9 @@ export default function App() {
       } else if (internalPage === 'runtime' || internalPage === 'kernel') {
         setRuntimeUri('runtime://kernel');
         setActiveTab('runtime');
+      } else if (internalPage === 'favoritos') {
+        setIsBrowsing(false);
+        setActiveTab('favorites');
       } else if (tabs.find(t => t.id === internalPage)) {
         setIsBrowsing(false);
         setActiveTab(internalPage as Tab);
@@ -569,6 +574,7 @@ export default function App() {
     { id: 'vpn', icon: Shield, label: 'VPN X' },
     { id: 'miner', icon: Cpu, label: 'Minería' },
     { id: 'ai', icon: Sparkles, label: 'IA X' },
+    { id: 'favorites', icon: Star, label: 'Favoritos' },
   ] as const;
 
   const adminTab = { id: 'admin', icon: ShieldCheck, label: 'Admin Panel' } as const;
@@ -582,6 +588,7 @@ export default function App() {
     if (activeTab === 'ai') setUrl('navegador://ia');
     if (activeTab === 'marketplace') setUrl('navegador://mercado');
     if (activeTab === 'admin') setUrl('navegador://admin');
+    if (activeTab === 'favorites') setUrl('navegador://favoritos');
   }, [activeTab, isBrowsing, browsingUrl, runtimeUri]);
 
   const handleUrlSubmit = (e: React.FormEvent) => {
@@ -1063,6 +1070,12 @@ export default function App() {
                 />
               )}
               {activeTab === 'marketplace' && <MarketplaceView />}
+              {activeTab === 'favorites' && (
+                <BookmarksView 
+                  onNavigate={navigateTo}
+                  currentUrl={isBrowsing ? browsingUrl : url}
+                />
+              )}
               {activeTab === 'runtime' && (
                 <RuntimeInspector 
                   initialUri={runtimeUri} 

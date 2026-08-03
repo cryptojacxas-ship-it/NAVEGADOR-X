@@ -47,6 +47,7 @@ export function URLAutocomplete({
     if (item.url.includes('ia')) return <Sparkles size={13} className="text-brand-magenta" />;
     if (item.url.includes('mercado') || item.url.includes('marketplace')) return <ShoppingBag size={13} className="text-purple-400" />;
     if (item.url.includes('admin')) return <ShieldCheck size={13} className="text-rose-400" />;
+    if (item.url.includes('favoritos')) return <Star size={13} className="text-brand-magenta" />;
     if (item.isInternal) return <Star size={13} className="text-brand-cyan" />;
     return <Globe size={13} className="text-blue-400" />;
   };

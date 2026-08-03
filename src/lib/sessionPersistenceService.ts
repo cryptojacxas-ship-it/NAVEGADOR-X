@@ -8,7 +8,7 @@ export interface TabSessionItem {
   id: string;
   title: string;
   url: string;
-  tabType: 'dashboard' | 'home' | 'vpn' | 'miner' | 'ai' | 'marketplace' | 'admin' | 'runtime';
+  tabType: 'dashboard' | 'home' | 'vpn' | 'miner' | 'ai' | 'marketplace' | 'admin' | 'runtime' | 'favorites';
   isBrowsing: boolean;
   browsingUrl: string;
   runtimeUri: string;
@@ -27,7 +27,7 @@ export interface HistorySessionItem {
 
 export interface BrowsingSessionState {
   sessionId: string;
-  activeTab: 'dashboard' | 'home' | 'vpn' | 'miner' | 'ai' | 'marketplace' | 'admin' | 'runtime';
+  activeTab: 'dashboard' | 'home' | 'vpn' | 'miner' | 'ai' | 'marketplace' | 'admin' | 'runtime' | 'favorites';
   url: string;
   isBrowsing: boolean;
   browsingUrl: string;
