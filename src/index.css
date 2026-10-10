@@ -49,7 +49,7 @@
     border-color: #cbd5e1 !important;
   }
 
-  html.theme-light-aura .bg-[#16171b] {
+  html.theme-light-aura .bg-\[\#16171b\] {
     background-color: #ffffff !important;
     border-color: #cbd5e1 !important;
   }

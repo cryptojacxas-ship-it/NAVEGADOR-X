@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Star } from 'lucide-react';
 import { cn } from '@/src/lib/utils';
-import { addBookmark, deleteBookmark, isUrlBookmarked } from '@/src/lib/bookmarksService';
+import { addBookmark, deleteBookmark, getAllBookmarks, isUrlBookmarked } from '@/src/lib/bookmarksService';
 
 interface BookmarkButtonProps {
   url: string;
@@ -41,7 +41,6 @@ export function BookmarkButton({
     try {
       if (isBookmarked) {
         // Find and delete the bookmark
-        const { getAllBookmarks } = await import('@/src/lib/bookmarksService');
         const bookmarks = await getAllBookmarks();
         const bookmark = bookmarks.find(bm => bm.url === url);
         if (bookmark) {

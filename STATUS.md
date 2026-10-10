@@ -1,11 +1,11 @@
 # X Browser & X Runtime OS — Status Report
 
 ## Release Status
-- **Version:** `v0.1.0-alpha`
-- **Release Type:** Experimental Architecture Validation
-- **Status:** Release Candidate (Ready for Tagging)
-- **Target Platform:** Web Runtime Edition (SPA over React / TypeScript)
-- **Desktop Runtime (Electron / Tauri):** Planned (Roadmap v0.2.0-alpha+)
+- **Version:** `v0.3.0-alpha`
+- **Release Type:** Native Desktop Network & Real Navigation Milestone
+- **Status:** Milestone Reached (Phase 2 & Phase 3 Verified)
+- **Target Platform:** Desktop Native (Electron + Isolated WebView + SOCKS/HTTP Proxy Stack) & Web Preview Edition
+- **Desktop Executables:** `NavegadorX-Setup-0.3.0-alpha.exe` & `NavegadorX-Portable-0.3.0-alpha.exe`
 
 ---
 
@@ -19,12 +19,14 @@
 | **Runtime Scheduler** | 🟢 Frozen / Stable | `v1.0.0` | Non-blocking task priority scheduler & lifecycle workers |
 | **EventBus System** | 🟢 Frozen / Stable | `v1.0.0` | Reactive event bus with global telemetry & offline listeners |
 | **Runtime Inspector** | 🟢 Frozen / Stable | `v1.0.0` | System metrics, process inspector, and log stream UI |
-| **Plugin Host** | 🟢 Frozen / Stable | `v1.0.0` | Sandbox extension runner with plugin manifests |
-| **Firestore Security** | 🟢 Configured | `v1.0.0` | Role-based rules (`users`, `vpn_nodes`, `logs`) |
+| **Desktop Electron Shell** | 🟢 Integrated | `v0.3.0-alpha` | Custom titlebar, app:// bundle, sandbox, and contextIsolation |
+| **Native Webview Engine** | 🟢 Integrated | `v0.3.0-alpha` | Isolated webview process, persistent session, dom-ready guards |
+| **Native Network Proxy** | 🟢 Integrated | `v0.3.0-alpha` | SOCKS5, SOCKS4, HTTP, HTTPS via Electron session resolveProxy |
+| **JS Bundle Optimization** | 🟢 Optimized | `v0.3.0-alpha` | Modular manualChunks splitting all bundles below 500 kB |
 
 ---
 
-## Evidencia de Validación (Phase 1 Hypotheses)
+## Evidencia de Validación (Phase 1, 2 & 3)
 
 | Hipótesis / Objetivo | Estado | Evidencia / Mecanismo |
 |---|---|---|
@@ -32,15 +34,18 @@
 | **El sistema puede extenderse mediante Plugins** | ✅ Validado | `PluginHost` funcional con carga de manifiestos |
 | **La arquitectura admite múltiples Providers** | ✅ Validado | `ProviderEngine` (Network, AI, Mining, Storage) |
 | **La UI funciona sobre contratos del Runtime** | ✅ Validado | Cliente SPA `X Browser` interactuando vía bus de eventos |
-| **El Kernel permanece estable durante la evolución** | ✅ Validado en F1 | Principio de Estabilidad y Gobernanza por ACR |
+| **El Kernel permanece estable en Desktop (Fase 2)** | ✅ Validado | Shell Electron ejecutando contratos v1.0.0 sin regresiones |
+| **Navegación real en Desktop (Fase 2)** | ✅ Validado | `<webview>` aislado, descargas a disco con pausa/reanudar |
+| **Pila de Red & Proxy Nativo (Fase 3)** | ✅ Validado | SOCKS5/HTTP con resolución verificada (`resolveProxy`) |
 
 ### Pendiente de Validación (Fases Futuras)
 
 | Capacidad / Componente | Estado | Hito Objetivo |
 |---|---|---|
-| **Desktop Runtime (Electron / Tauri)** | ⏳ Pendiente | Phase 2 (`v0.2.0-alpha`) |
-| **Network Stack Nativo & SOCKS5** | ⏳ Pendiente | Phase 3 (`v0.3.0-alpha`) |
-| **Integración Tor & Circuit Isolation** | ⏳ Pendiente | Phase 4 (`v0.4.0-alpha`) |
+| **Enrutado por pestaña & partición de sesión** | ⏳ Pendiente | Phase 4 (`v0.4.0-alpha`) |
+| **Integración Tor & Daemon embebido** | ⏳ Pendiente | Phase 4 (`v0.4.0-alpha`) |
+| **Firma de código & reducción de instalador** | ⏳ Pendiente | Phase 4 (`v0.4.0-alpha`) |
+| **Autorización app:// en Firebase Console** | ⏳ Pendiente | Phase 4 (`v0.4.0-alpha`) |
 | **Multi-Browser Connectors** | ⏳ Pendiente | Phase 5 (`v0.5.0-beta`) |
 | **Autonomous Knowledge Browser** | ⏳ Pendiente | Phase 6 (`v1.0`) |
 

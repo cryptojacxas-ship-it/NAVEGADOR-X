@@ -14,25 +14,30 @@ This document outlines the evolutionary milestones for **X Runtime OS** and **X 
 
 ---
 
-## 🔄 Phase 2: Desktop Runtime Migration (v0.2.0-alpha) — *IN PROGRESS*
-- [ ] Packaging X Browser & X Runtime OS into an Electron / Tauri desktop container shell.
-- [ ] Native OS window control and framing.
-- [ ] IPC bridge for kernel-to-OS IPC calls without modifying kernel interface contracts.
-- [ ] Offline-first desktop local database adapter.
+## 🟢 Phase 2: Desktop Runtime Migration (v0.2.0-alpha) — *COMPLETED*
+- [x] Packaging X Browser into Electron native desktop container shell (`main.ts` + `preload.ts`).
+- [x] Native window framing, application menu, and safe `app://bundle` protocol with context isolation.
+- [x] Real navigation engine via isolated `<webview>` with persistent session (replacing iframe blocks).
+- [x] Native disk downloads with progress, speed, pause, resume, and cancel.
+- [x] Autonomous runtime engine + Gemini AI API integration via key or local engine.
+- [x] Transparent telemetry replacing mock metrics with real EventBus and runtime events.
 
 ---
 
-## ⏳ Phase 3: Native Network Stack (v0.3.0-alpha)
-- [ ] Native OS proxy controller and SOCKS5 proxy manager.
-- [ ] Native multi-threaded download manager with file system disk persistence.
-- [ ] Dedicated network health telemetry provider.
+## 🟢 Phase 3: Native Network Stack (v0.3.0-alpha) — *COMPLETED*
+- [x] Native OS network proxy controller supporting SOCKS5, SOCKS4, HTTP, and HTTPS.
+- [x] Strict validation for schemas, hostnames, and port ranges.
+- [x] Electron proxy resolution verification (`resolveProxy`) with real connection telemetry.
+- [x] JS bundle splitting optimization (< 500 kB chunks via Vite Rollup manualChunks).
+- [x] OAuth child-window flow for Google Firebase sign-in.
 
 ---
 
-## ⏳ Phase 4: Tor Network Integration (v0.4.0-alpha)
-- [ ] Embedded Tor daemon lifecycle manager.
-- [ ] Tor circuit isolation per browser tab.
-- [ ] On-demand darknet proxy routing.
+## 🔄 Phase 4: Tor Network Integration & Tab Routing (v0.4.0-alpha) — *NEXT / IN PROGRESS*
+- [ ] Tab-level network routing & per-destination rules (isolated session partition per tab).
+- [ ] Embedded Tor daemon lifecycle manager & circuit isolation.
+- [ ] Code signing & installer footprint optimization.
+- [ ] Authorization of `app://` scheme in Firebase Console for production desktop OAuth.
 
 ---
 
