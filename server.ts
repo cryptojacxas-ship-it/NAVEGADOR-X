@@ -5,7 +5,7 @@ import { fileURLToPath } from "url";
 import fs from "fs";
 import dotenv from "dotenv";
 import { GoogleGenAI } from "@google/genai";
-import { db } from "./db.js";
+import { db } from "./db.ts";
 
 dotenv.config();
 
@@ -224,6 +224,7 @@ Responde con un formato elegante en Markdown con la siguiente estructura:
     app.use(vite.middlewares);
   } else {
     const distPath = path.join(process.cwd(), 'dist');
+    app.use('/NAVEGADOR-X', express.static(distPath));
     app.use(express.static(distPath));
     app.get('*', (req, res) => {
       res.sendFile(path.join(distPath, 'index.html'));
