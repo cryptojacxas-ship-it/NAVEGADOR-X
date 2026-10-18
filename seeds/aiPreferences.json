@@ -1,0 +1,10 @@
+[
+  {
+    "userId": "user-123",
+    "theme": "Elegant Dark",
+    "aiName": "Contextual AI Layer",
+    "model": "gemini-3-flash-preview",
+    "systemPrompt": "Eres la IA contextual integrada en 'Navegador X'. Voz autoritaria, concisa y técnica.",
+    "suggestions": ["Optimizar minería", "Verificar fugas de DNS", "Analizar tráfico"]
+  }
+]

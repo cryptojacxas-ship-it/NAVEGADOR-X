@@ -1,0 +1,50 @@
+{
+  "id": "plugin-privacy-service",
+  "name": "Privacy Shield Protection Plugin",
+  "version": "1.0.0",
+  "description": "Motor de protección anti-fingerprinting y aislamiento de WebRTC/Cookies",
+  "author": "Navegador X Privacy Lab",
+  "permissions": [
+    "privacy.canvas",
+    "privacy.webrtc",
+    "privacy.cookies",
+    "network.proxy"
+  ],
+  "capabilities": [
+    {
+      "name": "privacy.blockTracker",
+      "description": "Intercepta y neutraliza un script de seguimiento o huella digital",
+      "version": "1.0.0",
+      "category": "privacy",
+      "permissions": ["privacy.canvas", "privacy.cookies"],
+      "supportedTransports": ["Direct", "Tor", "VPN"],
+      "timeoutMs": 10000,
+      "auditRequired": true
+    },
+    {
+      "name": "privacy.toggleCanvasNoise",
+      "description": "Activa o desactiva la inyección de ruido sintético en Canvas 2D",
+      "version": "1.0.0",
+      "category": "privacy",
+      "permissions": ["privacy.canvas"],
+      "supportedTransports": ["Direct", "Tor", "VPN"],
+      "timeoutMs": 3000,
+      "auditRequired": false
+    },
+    {
+      "name": "privacy.isolateWebRTC",
+      "description": "Bloquea fugas de dirección IP pública mediante candidates de WebRTC",
+      "version": "1.0.0",
+      "category": "privacy",
+      "permissions": ["privacy.webrtc", "network.proxy"],
+      "supportedTransports": ["Direct", "Tor", "VPN"],
+      "timeoutMs": 5000,
+      "auditRequired": true
+    }
+  ],
+  "config": {
+    "canvasNoiseLevel": 0.05,
+    "blockThirdPartyCookies": true,
+    "isolateWebRTC": true
+  }
+}

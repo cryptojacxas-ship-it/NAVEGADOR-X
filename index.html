@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!--
+      Política de seguridad de contenido: limita de dónde puede cargar recursos la
+      interfaz, sin permitir 'unsafe-eval'. El contenido de las webs visitadas vive en
+      un <webview> aparte (escritorio) o en un <iframe> (web) y no hereda esta política.
+    -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https:; media-src 'self' data: blob: https:; font-src 'self' data:; connect-src 'self' https: wss:; frame-src 'self' https: http:; worker-src 'self' blob:; object-src 'none'; base-uri 'self'; form-action 'self'" />
+    <title>Navegador X</title>
+    <meta name="description" content="Navegador X — Runtime OS modular con cliente web y edición de escritorio con motor de navegación real, gestión de descargas a disco e IA contextual opcional." />
+    <meta property="og:title" content="Navegador X" />
+    <meta property="og:description" content="Navegador X — Runtime OS modular con cliente web y edición de escritorio con motor de navegación real, gestión de descargas a disco e IA contextual opcional." />
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
+

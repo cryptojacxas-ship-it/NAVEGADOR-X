@@ -1,0 +1,64 @@
+# Configuración de empaquetado — Navegador X (Edición de Escritorio)
+#
+# Uso:
+#   npm run package:win    → instalador NSIS + versión portable
+#   npm run package:dir    → carpeta desempaquetada (para probar sin instalar)
+#
+# Nota: el proyecto no está firmado digitalmente, así que Windows mostrará el aviso
+# de "editor desconocido" al ejecutar el instalador. Es lo esperado sin certificado.
+
+appId: app.navegadorx.desktop
+productName: Navegador X
+copyright: Copyright © 2026 cryptojacxas-ship-it
+
+directories:
+  output: release
+  buildResources: build
+
+# Solo se empaqueta lo necesario: el renderer ya viene compilado por Vite y el
+# proceso principal va bundleado por esbuild, así que no hacen falta node_modules.
+files:
+  - electron-dist/**/*
+  - dist/**/*
+  - package.json
+  - '!**/*.map'
+  - '!node_modules/**/*'
+
+asar: true
+
+# Electron distribuye ~50 ficheros de idioma. Conservamos solo los que el producto usa:
+# baja el peso del instalador sin afectar a la interfaz.
+electronLanguages:
+  - es
+  - en-US
+
+win:
+  target:
+    - target: nsis
+      arch:
+        - x64
+    - target: portable
+      arch:
+        - x64
+  icon: build/icon.ico
+  artifactName: NavegadorX-${version}-${arch}.${ext}
+
+nsis:
+  oneClick: false
+  perMachine: false
+  allowToChangeInstallationDirectory: true
+  createDesktopShortcut: true
+  createStartMenuShortcut: true
+  shortcutName: Navegador X
+  artifactName: NavegadorX-Setup-${version}.${ext}
+  uninstallDisplayName: Navegador X ${version}
+  deleteAppDataOnUninstall: false
+
+portable:
+  artifactName: NavegadorX-Portable-${version}.${ext}
+
+# Los binarios de Electron no deben reempaquetarse dentro del asar.
+asarUnpack:
+  - resources/**
+
+publish: null

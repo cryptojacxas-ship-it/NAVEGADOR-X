@@ -1,0 +1,12 @@
+{
+  "name": "Navegador X",
+  "description": "Cliente de referencia de X Runtime OS: SPA web y edición de escritorio con motor de navegación real, descargas a disco e IA contextual opcional.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone",
+    "geolocation"
+  ],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
