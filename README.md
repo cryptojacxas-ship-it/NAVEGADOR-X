@@ -6,6 +6,12 @@ Navegador de escritorio con motor real (Chromium embebido), bloqueo de publicida
 
 > Este README describe lo que el binario hace de verdad. Los paneles de minería, nodos VPN y anti-fingerprinting son **demostraciones de interfaz**; el proxy y el bloqueador **sí** actúan sobre la red.
 
+## Descargar
+
+**[Descargar Navegador X 0.3.1-alpha](https://github.com/jacxas/NAVEGADOR-X/releases/latest)** — instalador (`NavegadorX-Setup-0.3.1-alpha.exe`) y versión portable incluidos como assets del release.
+
+Ramas: `main` = proyecto completo (web + kernel + edición Electron + scripts QA) · `hosted-preview` = variante web alojada.
+
 ---
 
 ## Qué incluye (verificado en ejecución)
