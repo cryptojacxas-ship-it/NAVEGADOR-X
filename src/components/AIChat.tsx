@@ -54,31 +54,68 @@ interface AIChatProps {
 }
 
 /**
- * La conversación se guarda localmente (localStorage): cerrar el panel o la app
- * no debe perderla. Antes vivía solo en memoria y al reabrir el chat desaparecía.
+ * La conversación se guarda en IndexedDB (transaccional y durable): cerrar el
+ * panel o la app no debe perderla. Antes vivía solo en memoria y al reabrir el
+ * chat desaparecía. Se descartó localStorage: su escritura a disco es asíncrona
+ * y se pierde si la app se cierra justo después de escribir (comprobado en QA).
  */
-const CHAT_STORAGE_KEY = 'navegadorx:ai-chat:v1';
+const CHAT_DB = 'NavegadorX_Chat_DB';
+const CHAT_STORE = 'conversacion';
+const CHAT_KEY = 'principal';
 const CHAT_MAX_MESSAGES = 100;
 
-function loadStoredMessages(): Message[] {
+function openChatDB(): Promise<IDBDatabase> {
+  return new Promise((resolve, reject) => {
+    if (typeof indexedDB === 'undefined') {
+      reject(new Error('IndexedDB no disponible'));
+      return;
+    }
+    const request = indexedDB.open(CHAT_DB, 1);
+    request.onupgradeneeded = (event) => {
+      const db = (event.target as IDBOpenDBRequest).result;
+      if (!db.objectStoreNames.contains(CHAT_STORE)) {
+        db.createObjectStore(CHAT_STORE, { keyPath: 'id' });
+      }
+    };
+    request.onsuccess = () => resolve(request.result);
+    request.onerror = () => reject(request.error);
+  });
+}
+
+async function loadMessagesIDB(): Promise<Message[]> {
   try {
-    const raw = localStorage.getItem(CHAT_STORAGE_KEY);
-    if (!raw) return [];
-    const parsed = JSON.parse(raw);
-    if (!Array.isArray(parsed)) return [];
-    return parsed
-      .filter((m: unknown) => {
-        const msg = m as Message;
-        return (
-          !!msg &&
-          (msg.role === 'user' || msg.role === 'assistant') &&
-          typeof msg.content === 'string'
+    const db = await openChatDB();
+    return await new Promise((resolve) => {
+      const tx = db.transaction(CHAT_STORE, 'readonly');
+      const req = tx.objectStore(CHAT_STORE).get(CHAT_KEY);
+      req.onsuccess = () => {
+        const record = req.result as { msgs?: Message[] } | undefined;
+        const msgs = Array.isArray(record?.msgs) ? record.msgs : [];
+        resolve(
+          msgs
+            .filter((m) => !!m && (m.role === 'user' || m.role === 'assistant') && typeof m.content === 'string')
+            .slice(-CHAT_MAX_MESSAGES)
+            .map((m) => ({ role: m.role, content: m.content })),
         );
-      })
-      .slice(-CHAT_MAX_MESSAGES)
-      .map((m: Message) => ({ role: m.role, content: m.content }));
+      };
+      req.onerror = () => resolve([]);
+    });
   } catch {
     return [];
+  }
+}
+
+async function saveMessagesIDB(msgs: Message[]): Promise<void> {
+  try {
+    const db = await openChatDB();
+    await new Promise((resolve, reject) => {
+      const tx = db.transaction(CHAT_STORE, 'readwrite');
+      tx.objectStore(CHAT_STORE).put({ id: CHAT_KEY, msgs: msgs.slice(-CHAT_MAX_MESSAGES), updatedAt: Date.now() });
+      tx.oncomplete = () => resolve();
+      tx.onerror = () => reject(tx.error);
+    });
+  } catch {
+    // Sin IndexedDB: la conversación vive solo en memoria.
   }
 }
 
@@ -90,15 +127,33 @@ export function AIChat({ isFloating, onClose, currentUrl, onOpenXRay }: AIChatPr
   const [preferences, setPreferences] = useState<any>(null);
   const [user, setUser] = useState(auth.currentUser);
   const scrollRef = useRef<HTMLDivElement>(null);
+  const [chatCargada, setChatCargada] = useState(false);
 
-  // Guardar la conversación en cada cambio (limitada a las últimas entradas).
+  // Cargar la conversación guardada al montar el panel.
   useEffect(() => {
-    try {
-      localStorage.setItem(CHAT_STORAGE_KEY, JSON.stringify(messages.slice(-CHAT_MAX_MESSAGES)));
-    } catch {
-      // Sin almacenamiento disponible: la conversación vive solo en memoria.
-    }
-  }, [messages]);
+    let cancelado = false;
+    void (async () => {
+      try {
+        const guardados = await loadMessagesIDB();
+        if (!cancelado && guardados.length > 0) {
+          setMessages(guardados);
+        }
+      } catch {
+        // Sin IndexedDB disponible.
+      } finally {
+        if (!cancelado) setChatCargada(true);
+      }
+    })();
+    return () => {
+      cancelado = true;
+    };
+  }, []);
+
+  // Guardar en cada cambio, una vez cargada la conversación inicial.
+  useEffect(() => {
+    if (!chatCargada) return;
+    void saveMessagesIDB(messages);
+  }, [messages, chatCargada]);
 
   useEffect(() => {
     const unsubAuth = onAuthStateChanged(auth, (u) => {
