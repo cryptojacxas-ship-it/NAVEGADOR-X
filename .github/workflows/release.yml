@@ -28,10 +28,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+11d5960a326750d5838078e36cf38b85af677262actions/checkout@11d5960a326750d5838078e36cf38b85af677262
 
       - name: Setup Node
-        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+49933ea5288caeca8642d1e84afbd3f7d6820020actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
         with:
           node-version: 22
           cache: npm
@@ -61,10 +61,10 @@ jobs:
       BUILD_DIR: C:\nx
     steps:
       - name: Checkout
-        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+11d5960a326750d5838078e36cf38b85af677262actions/checkout@11d5960a326750d5838078e36cf38b85af677262
 
       - name: Setup Node
-        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+49933ea5288caeca8642d1e84afbd3f7d6820020actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
         with:
           node-version: 22
           cache: npm
@@ -149,7 +149,7 @@ jobs:
 
       - name: Publish release
         if: startsWith(github.ref, 'refs/tags/')
-        uses: softprops/action-gh-release@resuelto: softprops/action-gh-release@v2 -> 3bb12739c298aeb8a4eeaf626c5b8d85266b0e65 3bb12739c298aeb8a4eeaf626c5b8d85266b0e65
+3bb12739c298aeb8a4eeaf626c5b8d85266b0e65softprops/action-gh-release@3bb12739c298aeb8a4eeaf626c5b8d85266b0e65
         with:
           files: |
             C:\nx\release\*Setup*.exe
@@ -170,3 +170,4 @@ jobs:
             ```
 
             ${{ steps.channel.outputs.signing_note }}
+
