@@ -8,7 +8,7 @@ Navegador de escritorio con motor real (Chromium embebido), bloqueo de publicida
 
 ## Descargar
 
-**[Descargar Navegador X 0.3.1-alpha](https://github.com/jacxas/NAVEGADOR-X/releases/latest)** — instalador (`NavegadorX-Setup-0.3.1-alpha.exe`) y versión portable incluidos como assets del release.
+**[Descargar Navegador X 0.3.7-alpha](https://github.com/cryptojacxas-ship-it/NAVEGADOR-X/releases/latest)** - instalador [NavegadorX-Setup-0.3.7-alpha.exe](https://github.com/cryptojacxas-ship-it/NAVEGADOR-X/releases/download/v0.3.7-alpha/NavegadorX-Setup-0.3.7-alpha.exe), portable [NavegadorX-Portable-0.3.7-alpha.exe](https://github.com/cryptojacxas-ship-it/NAVEGADOR-X/releases/download/v0.3.7-alpha/NavegadorX-Portable-0.3.7-alpha.exe) y SHA256SUMS.txt para verificar.
 
 Ramas: `main` = proyecto completo (web + kernel + edición Electron + scripts QA) · `hosted-preview` = variante web para servir en local.
 
